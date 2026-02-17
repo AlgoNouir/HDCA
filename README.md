@@ -1,4 +1,4 @@
-## Project: Distributed Hierarchical LLM Systems with Externalized Memory, Cognitive Compilation, and Policy Caching
+# Project: Distributed Hierarchical LLM Systems with Externalized Memory, Cognitive Compilation, and Policy Caching
 
 This repository provides a concrete implementation of a **Hierarchical Distributed Cognitive Architecture (HDCA)** that externalizes memory, planning, and policy structure from large language models into deterministic artifacts. Rather than treating a monolithic LLM with an ever-growing context window as the substrate of intelligence, this project operationalizes a **distributed cognitive system** in which:
 
@@ -12,9 +12,9 @@ This repository instantiates the architectural abstractions described in `phd.md
 
 ---
 
-# 1. Mapping the HDCA Framework to This Repository
+## 1. Mapping the HDCA Framework to This Repository
 
-## 1.1 Conceptual Architecture (HDCA)
+### 1.1 Conceptual Architecture (HDCA)
 
 The HDCA framework proposes a hierarchical cognitive system consisting of four interacting tiers:
 
@@ -31,7 +31,6 @@ The HDCA framework proposes a hierarchical cognitive system consisting of four i
    The environment of synthesized functions, object-oriented interfaces, and symbolic state transitions that ground cognition in executable semantics.
 
 The fundamental theoretical move is to **externalize cognition from the neural substrate into symbolic and deterministic artifacts**, enabling long-horizon reasoning with bounded context windows.
-
 
 ```mermaid
 sequenceDiagram
@@ -58,20 +57,19 @@ sequenceDiagram
 
 ```
 
-
 ---
 
-## 1.2 Implementation-Level Mapping
+### 1.2 Implementation-Level Mapping
 
 This repository realizes the HDCA tiers as follows:
 
-### Student Policy LLM
+#### Student Policy LLM
 
 * Implemented via `response_llm` in `models/llm.py`, currently using an Ollama-served local model (default: `gemma3:4b`).
 * All cognition is mediated through structured prompt templates in `prompts/`, enforcing a symbolic interface between the LLM and the environment.
 * The LLM acts strictly as a **policy oracle** over a symbolic object-oriented action space.
 
-### Object-Oriented Action Space and Environment
+#### Object-Oriented Action Space and Environment
 
 * The core runtime entity is `MopAgent` (`mop.py`), which:
 
@@ -81,12 +79,12 @@ This repository realizes the HDCA tiers as follows:
 
 This realizes an **object-oriented cognitive substrate**, where classes define ontologies and methods define affordances.
 
-### Meta-Level Ontology Expansion (Teacher Proxy)
+#### Meta-Level Ontology Expansion (Teacher Proxy)
 
 * `GodAgent` in `mop.py` functions as a meta-agent capable of synthesizing new agent classes via LLM-guided program synthesis.
 * This mechanism approximates the Teacher LLM tier by expanding the symbolic ontology rather than acting within a fixed ontology.
 
-### Externalized Memory via Logs and Artifacts
+#### Externalized Memory via Logs and Artifacts
 
 * Every LLM call is logged in `logs/` with:
 
@@ -95,16 +93,16 @@ This realizes an **object-oriented cognitive substrate**, where classes define o
   * Model outputs.
 * These logs constitute a primitive episodic memory substrate suitable for trajectory reconstruction, offline analysis, and future memory consolidation pipelines.
 
-### Program Synthesis Hooks
+#### Program Synthesis Hooks
 
 * `_add_action` in `mop.py` uses `prompts/add-action.md` to synthesize new deterministic methods, materialized in `agents/{ENTITY_NAME}.py`.
 * This implements **library learning and program induction**, allowing the agent’s ontology to expand over time.
 
 ---
 
-# 2. Formalizing MopAgent as a Policy Over an Object-Oriented Action Space
+## 2. Formalizing MopAgent as a Policy Over an Object-Oriented Action Space
 
-## 2.1 Symbolic State Representation
+### 2.1 Symbolic State Representation
 
 At discrete timestep t, the agent state is defined as:
 
@@ -122,7 +120,7 @@ This representation replaces raw conversational history with a structured symbol
 
 ---
 
-## 2.2 Action Space Taxonomy
+### 2.2 Action Space Taxonomy
 
 The agent selects actions from a heterogeneous action space:
 
@@ -138,7 +136,7 @@ Where θ are the neural parameters of the underlying model.
 
 ---
 
-## 2.3 Transition Dynamics
+### 2.3 Transition Dynamics
 
 Transitions are deterministic conditioned on LLM-selected actions:
 
@@ -150,7 +148,7 @@ This establishes a hybrid stochastic–deterministic Markov Decision Process wit
 
 ---
 
-# 3. Externalized Memory, Bounded Context, and Cognitive Compilation
+## 3. Externalized Memory, Bounded Context, and Cognitive Compilation
 
 A central HDCA claim is that **bounded-context LLMs can perform unbounded-horizon reasoning when cognition is externalized**.
 
@@ -166,11 +164,11 @@ Teacher Reasoning → Logs → Abstraction → Cache / Code → Student Executio
 
 ---
 
-# 4. Caching as Amortized Inference and Cognitive Memoization
+## 4. Caching as Amortized Inference and Cognitive Memoization
 
 Caching is interpreted as amortized inference over π_θ and its subroutines.
 
-## 4.1 Levels of Cognitive Caching
+### 4.1 Levels of Cognitive Caching
 
 1. **Decision Cache** (Level 1)
    Maps φ(s) → a_t
@@ -185,7 +183,7 @@ Each cache tier corresponds to a different cognitive abstraction layer.
 
 ---
 
-## 4.2 Canonical State Fingerprinting
+### 4.2 Canonical State Fingerprinting
 
 A canonical fingerprint φ(s) must encode structural semantics rather than raw prompt text:
 
@@ -199,9 +197,9 @@ This fingerprint defines cache key semantics and guards against ontology drift.
 
 ---
 
-# 5. Object-Oriented Cognitive Design Patterns
+## 5. Object-Oriented Cognitive Design Patterns
 
-## 5.1 LLM Client Abstraction
+### 5.1 LLM Client Abstraction
 
 `response_llm` is the choke point for introducing:
 
@@ -209,7 +207,7 @@ This fingerprint defines cache key semantics and guards against ontology drift.
 * Versioned prompt schemas
 * Unified telemetry and provenance tracking
 
-## 5.2 Hierarchical Cache Strategy
+### 5.2 Hierarchical Cache Strategy
 
 Future cache backends may include:
 
@@ -217,7 +215,7 @@ Future cache backends may include:
 * Persistent disk-backed stores (SQLite, LMDB)
 * Remote distributed caches
 
-## 5.3 Prompt and Ontology Versioning
+### 5.3 Prompt and Ontology Versioning
 
 Cache keys must incorporate:
 
@@ -229,16 +227,16 @@ This enforces reproducibility and prevents stale cognitive artifacts.
 
 ---
 
-# 6. Experimental Design and Evaluation Protocol
+## 6. Experimental Design and Evaluation Protocol
 
-## 6.1 Metrics
+### 6.1 Metrics
 
 * Token usage vs. task horizon
 * Success rate vs. model size
 * Latency and compute cost
 * Cache hit rate and cognitive degradation metrics
 
-## 6.2 Baselines
+### 6.2 Baselines
 
 * ReAct-style agents without caching
 * Long-context memory agents (MemGPT-like)
@@ -246,13 +244,13 @@ This enforces reproducibility and prevents stale cognitive artifacts.
 
 ---
 
-# 7. Limitations, Failure Modes, and Safety
+## 7. Limitations, Failure Modes, and Safety
 
-## 7.1 Missing Production Memory Layer
+### 7.1 Missing Production Memory Layer
 
 Current logs constitute episodic memory but lack consolidation, abstraction, and forgetting mechanisms.
 
-## 7.2 Cache Staleness and Ontology Drift
+### 7.2 Cache Staleness and Ontology Drift
 
 Caches must detect:
 
@@ -260,17 +258,17 @@ Caches must detect:
 * Prompt schema drift
 * Model upgrades
 
-## 7.3 Program Synthesis Risks
+### 7.3 Program Synthesis Risks
 
 Synthesized code must be sandboxed, statically analyzed, and unit-tested before execution.
 
-## 7.4 Teacher–Student Separation
+### 7.4 Teacher–Student Separation
 
 A full HDCA realization requires strict separation between remote ontology discovery and local runtime policy execution.
 
 ---
 
-# 8. Research Hypothesis and Philosophical Framing
+## 8. Research Hypothesis and Philosophical Framing
 
 This project advances the hypothesis that **intelligence can be progressively compiled from neural inference into deterministic symbolic artifacts**, analogous to partial evaluation and memoization in programming language theory.
 
@@ -278,7 +276,7 @@ LLMs serve as high-entropy exploratory compilers, while deterministic code and c
 
 ---
 
-# 9. Future Directions
+## 9. Future Directions
 
 * Cognitive consolidation pipelines (log → abstraction → macro-actions)
 * Proof-carrying synthesized code
