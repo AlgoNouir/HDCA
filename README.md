@@ -34,26 +34,32 @@ The fundamental theoretical move is to **externalize cognition from the neural s
 
 ```mermaid
 sequenceDiagram
-    actor H as Human
-    participant S as Student LLM
-    participant T as Teacher LLM
 
-    H ->> S: send prompt to student
+   box on local
+      actor H as Human
+      participant S as Student LLM
+   end
 
-    loop until response is good enough
-        S ->> S: think about prompt
+   box Gray maybe on another network
+      participant T as Teacher LLM
+   end
 
-        alt if can response prompt with memory
-            S ->> S: use memory and<br>update context
-        else need to get new data
-            S ->> T: send prompt to teacher
-            T ->> T: think about prompt
-            T ->> S: send context to LLM
-            S ->> S: update long-term memory
-        end
-    end
+   H ->> S: send prompt to student
 
-    S ->> H: response to human
+   loop until response is good enough
+      S ->> S: think about prompt
+
+      alt if can response prompt with memory
+         S ->> S: use memory and<br>update context
+      else need to get new data
+         S ->> T: send prompt to teacher
+         T ->> T: think about prompt
+         T ->> S: send context to LLM
+         S ->> S: update long-term memory
+      end
+   end
+
+   S ->> H: response to human
 
 ```
 
